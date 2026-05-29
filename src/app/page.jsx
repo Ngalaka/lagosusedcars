@@ -429,7 +429,7 @@ export default function page() {
       </div>
 
       {/*  Section to add cars */}
-      <div className="w-full h-auto py-16">
+      <div className="w-full h-auto py-4">
 
         <div className="w-full flex flex-row justify-between items-center px-16 py-4">
           <p className="text-xl font-bold">Recently Added Cars</p>
@@ -444,7 +444,7 @@ export default function page() {
 
         <Swiper
           // modules={[Navigation, Pagination, Autoplay]}
-           modules={[ Pagination]}
+          modules={[Pagination]}
           spaceBetween={20}
           slidesPerView={5}
           // navigation
@@ -452,7 +452,7 @@ export default function page() {
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
-             pauseOnMouseEnter: true,
+            pauseOnMouseEnter: true,
           }}
           loop={false}
           // loop={true}
@@ -461,32 +461,36 @@ export default function page() {
 
           {/* addCars  */}
 
-          <div className="flex flex-row justify-between items-center gap-2">
-            {addCars.map((car) => (
+          <div className="w-70 h-auto flex flex-row justify-between items-center gap-2 border-2 ">
+            
+              {addCars.map((car) => (
+                < SwiperSlide key={car.id} >
+                  <div className="border border-black/50 py-3 px-3">
+                    <div>
+                      <Image src={car.image} width={300} height={300} alt='Lagos used cars' className="w-50 h-30 object-cover"/>
+                    </div>
+                    <div>
+                      <p >{car.useBy}</p>
+                      < p className="font-bold text-sm">{car.model}</p>
+                      <div className='flex flex-row items-center gap-2 text-black/50 text-sm'>
+                        <p >{car.fuel}</p>
+                        <p>{car.body}</p>
+                        <p>{car.year}</p>
+                      </div>
+                      <div className="flex justify-between items-center gap-16">
+                        <div className="flex flex-row items-center gap-2 text-black/50">
+                          <span className="text-sm"><CiLocationOn /></span>
+                          <p >{car.location}</p>
+                        </div>
+                        <p className="font-semibold text-sm">{car.price}</p>
+                      </div>
+                    </div>
+                  </div>
 
-              < SwiperSlide key={car.id} >
-                <Image src={car.image} width={300} height={300} alt='Lagos used cars' />
-                <div>
-                  <p className="pl-4">{car.useBy}</p>
-                  < p className="pl-4  font-bold text-xl">{car.model}</p>
-                  <div className='flex flex-row items-center gap-2 '>
-                    <p  className="pl-4 ">{car.fuel}</p>
-                    <p  className="pl-4 ">{car.body}</p>
-                    <p  className="pl-4 ">{car.year}</p>
-                  </div>
-                  <div className="flex flex-row  items-center gap-16">
-                  <div className="flex flex-row items-center gap-2">
-                    <span className="text-2xl pl-4 "><CiLocationOn /></span>
-                    <p >{car.location}</p>
-                  </div>
-                  <p  className="pl-4 pt-2 font-bold">{car.price}</p>
-                </div>
-                  </div>
-                 </SwiperSlide>
-            ))}
-
+                </SwiperSlide>
+              ))}
           </div>
-             </Swiper>
+        </Swiper>
       </div>
 
       {/*  */}
@@ -494,7 +498,7 @@ export default function page() {
       <div className="w-full h-auto">
 
 
-           <div className="w-full flex flex-row justify-between items-center px-16 py-4">
+        <div className="w-full flex flex-row justify-between items-center px-16 py-4">
           <p className="text-xl font-bold">What our Customers Say</p>
           <div className="flex flex-row items-center gap-2">
             <p>Write a Review</p>
@@ -507,7 +511,7 @@ export default function page() {
 
         <Swiper
           // modules={[Navigation, Pagination, Autoplay]}
-           modules={[ Pagination]}
+          modules={[Pagination]}
           spaceBetween={5}
           slidesPerView={3}
           // navigation
@@ -515,7 +519,7 @@ export default function page() {
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
-             pauseOnMouseEnter: true,
+            pauseOnMouseEnter: true,
           }}
           loop={false}
           className="overflow-hidden"
@@ -530,19 +534,19 @@ export default function page() {
                 <div>
                   <p >{testi.testi}</p>
                   <div className='flex flex-row items-center gap-2 '>
-                  <Image src={testi.image} width={300} height={300} alt="Lagos used cars" className="w-8 h-8 rounded-full"/>
+                    <Image src={testi.image} width={300} height={300} alt="Lagos used cars" className="w-8 h-8 rounded-full" />
                     <div>
-                        <p className="font-bold">{testi.name}</p>
-                        <p className="text-sm text-black/50">{testi.model}</p>
+                      <p className="font-bold">{testi.name}</p>
+                      <p className="text-sm text-black/50">{testi.model}</p>
                     </div>
                   </div>
 
-                  </div>
-                 </SwiperSlide>
+                </div>
+              </SwiperSlide>
             ))}
 
           </div>
-             </Swiper>   
+        </Swiper>
       </div>
     </>
   )
