@@ -471,7 +471,7 @@ export default function page() {
                     </div>
                     <div>
                       <p >{car.useBy}</p>
-                      < p className="font-bold text-sm">{car.model}</p>
+                      < p className="font-bold text-sm py-1">{car.model}</p>
                       <div className='flex flex-row items-center gap-2 text-black/50 text-sm'>
                         <p >{car.fuel}</p>
                         <p>{car.body}</p>
