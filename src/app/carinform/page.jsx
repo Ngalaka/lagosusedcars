@@ -327,7 +327,7 @@ export default function page() {
 
             <div className='w-full h-auto py-12 bg-gray-50'>
               <div className='bg-white'>
-              <h1 className='text-2xl font-bold px-8 py-4'>Buyer Protection</h1>
+              <h1 className='text-2xl font-bold'>Buyer Protection</h1>
 
               <div>
                 {/* all buyer protection */}
@@ -388,45 +388,7 @@ export default function page() {
           </div>
 
 
-          {/* Drive Now, Pay Later */}
 
-          <div className='bg-blue-950 rounded-lg w-full h-auto mx-auto py-12 text-white'>
-            <h1 className=' text-3xl text-white font-bold px-4 '>Drive Now, Pay Later</h1>
-            <p className='text-sm text-white/50 px-4 py-4'>
-              Spread the cost with flexible financing,Low deposit, fixed monthly
-              payments, no hidden charges
-            </p>
-
-            <div className='bg-blue-700 text-white rounded-lg py-4'>
-              <div className='flex justify-between items-center gap-4 px-8'>
-                <p>Car price</p>
-                <p>N18,500,000</p>
-              </div>
-
-              <div  className='flex justify-between items-center gap-4 px-8'>
-                <p>Est, deposit(20%)</p>
-                <p>N18,500,000</p>
-              </div>
-
-              <div  className='flex justify-between items-center gap-4 px-8'>
-                <p>Monthly payment</p>
-                <p>N18,500,000</p>
-              </div>
-
-              <div  className='flex justify-between items-center gap-4 px-8'>
-                <p>Loan term</p>
-                <p>N18,500,000</p>
-              </div>
-            </div>
-
-             <div className='py-4'>
-                <button>
-                  Check Eligibility
-                <span>icons</span>
-                </button>
-              </div>
-
-          </div>
 
           </div>
         </div>
