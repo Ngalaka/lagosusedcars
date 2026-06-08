@@ -4,10 +4,31 @@ import { IoCarSportOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { TiStarburstOutline } from "react-icons/ti";
 import { LuUsers } from "react-icons/lu";
-import { useForm } from "react-hook-form";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { RiCloseCircleLine } from "react-icons/ri";
+import Image from "next/image";
+import { addCars } from "@/lib/addCars";
+import { CiLocationOn } from "react-icons/ci";
+import { IoIosArrowRoundForward } from "react-icons/io";
+import { MdOutlineArrowRightAlt } from "react-icons/md";
+import { typeCar } from "@/lib/typeCar";
+import { AiTwotoneMail } from "react-icons/ai";
+import { FiPhoneIncoming } from "react-icons/fi";
+import { FaEye, FaEyeSlash, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
+
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// Import required modules
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { testimony } from "@/lib/testimony";
+import { logoCars } from "@/lib/logocar";
+import { RiCloseCircleLine } from "react-icons/ri";
+import { useForm } from "react-hook-form";
 
 export default function page() {
   // Mock Data representing vehicles in Nigeria
@@ -20,31 +41,31 @@ export default function page() {
       body: "Sedan",
       transmission: "Automatic",
       fuel: "Petrol",
-      price: 800000,
+      price: 150000,
       location: "Lagos",
       image: "/image/nissan.jfif"
     },
     {
       id: 2,
       make: "Toyota",
-      model: "Camry",
-      year: 2018,
+      model: "Corolla",
+      year: 2025,
       body: "Sedan",
       transmission: "Manual",
       fuel: "Petrol",
-      price: 9800000,
+      price: 3000000,
       location: "Lagos",
       image: "/image/nissan.jfif"
     },
     {
       id: 3,
       make: "Toyota",
-      model: "Corolla",
+      model: "Prius",
       year: 2020,
-      body: "Sedan",
+      body: " Liftback",
       transmission: "Automatic",
       fuel: "Petrol",
-      price: 15500000,
+      price: 18000000,
       location: "Abuja",
       image: "/image/nissan.jfif"
     },
@@ -54,7 +75,7 @@ export default function page() {
       model: "Civic",
       year: 2019,
       body: "Sedan",
-      transmission: "Automatic",
+      transmission: "Manual",
       fuel: "Petrol",
       price: 12000000,
       location: "Lagos",
@@ -64,9 +85,9 @@ export default function page() {
     {
       id: 5,
       make: "Toyota",
-      model: "Prado",
-      year: 2017,
-      body: "SUV",
+      model: "Avalon",
+      year: 2022,
+      body: "Sedan",
       transmission: "Automatic",
       fuel: "Diesel",
       price: 35000000,
@@ -80,7 +101,7 @@ export default function page() {
       model: "Camry",
       year: 2018,
       body: "Sedan",
-      transmission: "Automatic",
+      transmission: "Manual",
       fuel: "Petrol",
       price: 9800000,
       location: "Lagos",
@@ -92,9 +113,9 @@ export default function page() {
       model: "Camry",
       year: 2018,
       body: "Sedan",
-      transmission: "Automatic",
+      transmission: "Manual",
       fuel: "Petrol",
-      price: 9800000,
+      price: 2000000,
       location: "Lagos",
       image: "/image/nissan.jfif"
     },
@@ -138,7 +159,6 @@ export default function page() {
   ];
 
   // --- 1. State Configurations ---
-  const [loading, setLoading] = useState(false)
   const [minPrice, setMinPrice] = useState(5000000);
   const [maxPrice, setMaxPrice] = useState(65000000);
   const [make, setMake] = useState("Toyota");
@@ -146,9 +166,8 @@ export default function page() {
   const [transmission, setTransmission] = useState("Automatic");
   const [fuelType, setFuelType] = useState("Petrol");
 
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
 
   // Absolute boundaries for the slider tracks
@@ -189,45 +208,50 @@ export default function page() {
   const minPercent = ((minPrice - absoluteMin) / (absoluteMax - absoluteMin)) * 100;
   const maxPercent = ((maxPrice - absoluteMin) / (absoluteMax - absoluteMin)) * 100;
 
-
-
-
-  //  // destructure useForm to get register, handleSubmit, errors, and reset functions
-
+  // destructure useForm to get register, handleSubmit, errors, and reset functions
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
   } = useForm({
-    mode: 'onTouched', // Validates when a user clicks out of an input
+    defaultValues: {
+      email: "",
+      password: "",
+      fName: "",
+      lName: "",
+      phone: "",
+      agree: false
+    },
   });
 
-  // show password character 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  }
-  // Handle submit data
 
   const onSubmit = async (data) => {
+    setLoading(true);
 
-    console.log('Form Submitted Successfully:', data);
-    alert('Registration Successful!',data);
+    try {
+      console.log(data);
 
-    // Simulate an API call (e.g., sending data to a Next.js API route)
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+      console.log("Form Submitted Successfully", data);
 
-    reset(); // Clear the form fields after successful submission
-  }
+      // Clear all form fields
+      reset();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <>
 
       {/* Hero Section */}
-      <div className=' w-full h-auto'>
+      <div className='w-full h-auto'>
 
         {/* Nav Section */}
-        <div className='flex items-center lg:w-full h-17.5  justify-between gap-2 px-14  '>
+        <div className='w-full h-17.5  flex justify-between items-center gap-2 px-14'>
 
           {/* section for Logo */}
           <div>
@@ -274,20 +298,16 @@ export default function page() {
         </div>
       </div>
 
-
-
-
       {/* Hero Sectiom */}
-      <div className="relative h-screen  w-full  bg-cover bg-center bg-no-repeat  "
+      <div className="relative h-auto w-full  bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: "url('/image/carBg6.jfif')" }}>
 
         <div className="absolute inset-0 bg-black/50" />
-
-        <div className="relative z-10 flex justify-around items-center blur-sm">
+        <div className="relative z-10 flex justify-around items-center blur-sm ">
 
           {/* card for logos platform */}
           <div className=' w-160 py-16 px-16  text-white '>
-            <p className='text-7xl  py-4'>Lagos #1 Platform to Buy & Sell Used Cars </p>
+            <p className='text-7xl  py-4'>Logos #1 Platform to Buy & Sell Used Cars </p>
             <p className='text-xl  py-4'>Fine verified tokunbo, Nigerian-used and brand new cars transparent pricing. Real dealers</p>
           </div>
 
@@ -358,10 +378,6 @@ export default function page() {
                     >
                       <option value="Toyota">Toyota</option>
                       <option value="Honda">Honda</option>
-                      <option value="Toyota">BMW</option>
-                      <option value="Honda">Ben</option>
-                      <option value="Toyota">Toyota</option>
-                      <option value="Honda">Honda</option>
 
                     </select>
                   </div>
@@ -397,7 +413,7 @@ export default function page() {
                     <span className="mr-2 text-blue-600 text-sm"></span>
                     <select
                       value={fuelType}
-                       onChange={(e) => setFuelType(e.target.value)}
+                      onChange={(e) => setFuelType(e.target.value)}
                       className="w-full bg-transparent text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer"
                     >
                       <option value="Petrol">Petrol</option>
@@ -414,10 +430,12 @@ export default function page() {
                         key={car.id}
                         className="flex items-center p-2.5 border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow"
                       >
-                        <img
+                        <Image
                           src={car.image}
                           alt={`${car.make} ${car.model}`}
-                          className="w-8 h-8 object-cover rounded-xl bg-slate-100 mr-3"
+                          width={300}
+                          height={300}
+                          className="w-4 h-4 object-cover rounded-xl bg-slate-100 mr-3"
                         />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-semibold text-slate-800 truncate">
@@ -442,7 +460,7 @@ export default function page() {
                 </div>
 
                 {/* --- Interactive Primary Button Footer --- */}
-                <button className="w-full bg-[#0b0c43] hover:bg-[#16186b] cursor-pointer text-white font-semibold py-4 px-4 rounded-2xl transition-colors shadow-md flex items-center justify-center text-md mb-4">
+                <button className="w-full bg-blue-900 hover:bg-[#16186b] cursor-pointer text-white font-semibold py-4 px-4 rounded-2xl transition-colors shadow-md flex items-center justify-center text-md mb-4">
                   Find {filteredVehicles.length} Vehicles
                 </button>
 
@@ -453,13 +471,448 @@ export default function page() {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+
+      {/* Featured Cars */}
+      <div className="w-full h-auto blur-sm mt-8">
+
+        {/* Recently car */}
+        <div className="w-full flex flex-row justify-between items-center px-16 py-4">
+          <p className="text-xl font-bold">Featured Cars for sale</p>
+          <div className="flex flex-row items-center gap-2">
+            <p className="cursor-pointer">View all</p>
+            <span><IoIosArrowRoundForward /></span>
+          </div>
+        </div>
+
+
+        {/* acarosel codes */}
+        <div>
+          <Swiper
+            // modules={[Navigation, Pagination, Autoplay]}
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView={5}
+            // navigation
+            // pagination={{ clickable: true }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            loop={false}
+            // loop={true}
+            className="overflow-hidden"
+          >
+
+            {/* addCars  */}
+
+            <div className="w-70 h-auto flex flex-row justify-between items-center gap-2  ">
+
+              {addCars.map((car) => (
+                < SwiperSlide key={car.id} >
+                  <div className="border border-black/10 py-3 px-3">
+                    <div>
+                      <Image src={car.image} width={300} height={300} alt='Lagos used cars' className="w-full h-30 object-cover" />
+                    </div>
+                    <div>
+                      <p >{car.useBy}</p>
+                      < p className="font-bold text-sm py-1">{car.model}</p>
+                      <div className='flex flex-row items-center gap-2 text-black/50 text-sm'>
+                        <p >{car.fuel}</p>
+                        <p>{car.body}</p>
+                        <p>{car.year}</p>
+                      </div>
+                      <div className="flex justify-between items-center gap-16">
+                        <div className="flex flex-row items-center gap-2 text-black/50">
+                          <span className="text-sm"><CiLocationOn /></span>
+                          <p >{car.location}</p>
+                        </div>
+                        <p className="font-semibold text-sm">{car.price}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </SwiperSlide>
+              ))}
+            </div>
+          </Swiper>
+        </div>
+
+
+        {/* Browse Car by Brand */}
+
+        <div className="w-full h-auto mt-8 blur-sm">
+
+          {/* Browse Car by Brand */}
+          {/* browse car by Type */}
+          <div className="w-full flex flex-row justify-between items-center px-16 py-4 ">
+            <div className="w-full flex flex-row justify-between items-center  py-4">
+              <p className="text-xl font-bold">Browse Car Types in Nigeria</p>
+              <div className="flex flex-row items-center gap-2">
+                <p className="cursor-pointer">View all</p>
+                <span><IoIosArrowRoundForward /></span>
+              </div>
+            </div>
+          </div>
+
+          {/* types */}
+
+          <div className="w-full h-auto flex flex-row justify-start items-center gap-4 px-16 py-2 blur-sm">
+            {logoCars.map((logo) => (
+              <div key={logo.id} >
+                <div className="w-50 h-30 border border-black/10 flex flex-col justify-center items-center gap-2 py-2 px-2">
+                  <Image src={logo.logo} width={100} height={100} alt="Lagos used cars" className="w-20 h-20 object-cover" />
+                  <p>{logo.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
+        {/* Browse Car by Type in Nigeria */}
+        <div className="w-full h-auto mt-8">
+          {/* browse car by Type */}
+          <div className="w-full flex flex-row justify-between items-center px-16 py-4">
+            <div className="w-full flex flex-row justify-between items-center  py-4">
+              <p className="text-xl font-bold">Browse Car Types in Nigeria</p>
+              <div className="flex flex-row items-center gap-2">
+                <p className="cursor-pointer">View all</p>
+                <span><IoIosArrowRoundForward /></span>
+              </div>
+            </div>
+          </div>
+
+          {/* types */}
+
+          <div className="w-full h-auto flex flex-row justify-start items-center gap-4 px-16 py-2">
+            {typeCar.map((type) => (
+              <div key={type.id} >
+                <div className="w-50 h-30 border border-black/10 flex flex-col justify-center items-center gap-2 py-2 px-2">
+                  <Image src={type.logo} width={300} height={300} alt="Lagos used cars" className="w-30 h-30 object-cover" />
+                  <p>{type.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+
+
+      {/*  Section to add cars */}
+      <div className="w-full h-auto mt-8 blur-sm">
+
+        <div className="w-full h-auto bg-blue-900 flex flex-row justify-center items-center">
+          <div className="w-[60%] h-auto flex flex-col justify-center items-start gap-4 py-4 px-8 bg-blue-900">
+            <h1 className="text-3xl font-bold text-white py-4 px-2">Drive Now, Pay Later</h1>
+            <div className="w-[50%] h-auto py-4 px-2">
+              <p className="text-white/80 font-light text-sm">Get your dream car today and pay later with our flexible financing options.Low
+                deposit,easy monthly payments,no hidden charges pre-qualify in 2 minutes!
+              </p>
+            </div>
+
+            <div>
+              <button className="bg-blue-900 text-white font-semibold py-2 px-4 rounded-full cursor-pointer transition-colors hover:bg-blue-700 border border-white flex justify-center items-center gap-2">
+                <p>Check Your Eligibility</p>
+                <span className="text-xl text-white font-normal ml-1"><MdOutlineArrowRightAlt /></span>
+              </button>
+            </div>
+          </div>
+
+          <div className="w-[40%]">
+            <Image src="/image/indivialcar.jpeg" width={400} height={400} alt="Lagos used cars " className="w-full h-[270px] object-cover" />
+          </div>
+        </div>
+
+
+
+        {/* Recently car */}
+        <div className="w-full flex flex-row justify-between items-center px-16 py-4 blur-sm">
+          <p className="text-xl font-bold">Recently Added Cars</p>
+          <div className="flex flex-row items-center gap-2">
+            <p className="cursor-pointer">View all</p>
+            <span><IoIosArrowRoundForward /></span>
+          </div>
+        </div>
+
+
+
+        {/* acarosel codes */}
+        <div className="w-full h-auto flex flex-row justify-center items-center px-8 py-2 gap-4 ">
+          <Swiper
+            // modules={[Navigation, Pagination, Autoplay]}
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView={5}
+            // navigation
+            // pagination={{ clickable: true }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            loop={false}
+            // loop={true}
+            className="overflow-hidden"
+          >
+
+            {/* addCars  */}
+
+            <div className="w-70 h-auto flex flex-row justify-between items-center gap-2  ">
+
+              {addCars.map((car) => (
+                < SwiperSlide key={car.id} >
+                  <div className="border border-black/10 py-3 px-3">
+                    <div>
+                      <Image src={car.image} width={300} height={300} alt='Lagos used cars' className="w-full h-30 object-cover" />
+                    </div>
+                    <div>
+                      <p >{car.useBy}</p>
+                      < p className="font-bold text-sm py-1">{car.model}</p>
+                      <div className='flex flex-row items-center gap-2 text-black/50 text-sm'>
+                        <p >{car.fuel}</p>
+                        <p>{car.body}</p>
+                        <p>{car.year}</p>
+                      </div>
+                      <div className="flex justify-between items-center gap-16">
+                        <div className="flex flex-row items-center gap-2 text-black/50">
+                          <span className="text-sm"><CiLocationOn /></span>
+                          <p >{car.location}</p>
+                        </div>
+                        <p className="font-semibold text-sm">{car.price}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </SwiperSlide>
+              ))}
+            </div>
+          </Swiper>
+        </div>
+      </div>
+
+
+
+
+
+
+      {/* Testimony section */}
+
+      <div className="w-full h-auto blur-sm mt-8">
+
+
+        <div className="w-full flex flex-row justify-between items-center px-16 py-4 blur-sm">
+          <p className="text-xl font-bold">What our Customers Say</p>
+          <div className="flex flex-row items-center gap-2">
+            <p>Write a Review</p>
+            <span><IoIosArrowRoundForward /></span>
+          </div>
+        </div>
+
+
+        {/* acarosel codes */}
+
+        <Swiper
+          // modules={[Navigation, Pagination, Autoplay]}
+          modules={[Pagination]}
+          spaceBetween={20}
+          slidesPerView={3}
+          // navigation
+          // pagination={{ clickable: true }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          loop={false}
+          className="overflow-hidden"
+        >
+
+          {/* addCars  */}
+
+          <div className=" w-[80%] h-auto flex flex-row justify-between items-center gap-2 border">
+            {testimony.map((testi) => (
+
+              < SwiperSlide key={testi.id} >
+                <div className="border  border-black/10 py-3 px-3">
+                  <div className="h-20 w-full flex items-center justify-center text-center text-sm text-black/50">
+                    <p >{testi.testi}</p>
+                  </div>
+                  <div className='flex flex-row items-center gap-2 py-2 px-2'>
+                    <Image src={testi.image} width={300} height={300} alt="Lagos used cars" className="w-8 h-8 rounded-full" />
+                    <div>
+                      <p className="font-bold">{testi.name}</p>
+                      <p className="text-sm text-black/50">{testi.model}</p>
+                    </div>
+                  </div>
+
+                </div>
+              </SwiperSlide>
+            ))}
+
+          </div>
+        </Swiper>
+      </div>
+
+
+      <div className="w-full h-auto bg-blue-900 py-2 mt-8 blur-sm">
+
+        <div className="w-full flex flex-row justify-between items-center px-16 py-4">
+          <h2 className="text-xl font-bold text-white">What Our Customers Say</h2>
+          <p className="text-sm text-white py-2 px-4  cursor-pointer">view all videos </p>
+        </div>
+
+        {/* speedometer image */}
+        <div className="w-full h-auto flex flex-row justify-center items-center px-8 py-2 gap-4 text-white">
+          <div>
+            <Image src="/image/carspeedometer.jpeg" width={300} height={300} alt="Lagos used cars" className="w-full h-30 object-cover" />
+            <div className="w-full h-auto flex flex-col justify-center items-center gap-2 bg-blue-700">
+              <p className="text-center text-sm text-white px-4 font-bold">How to spot a good Tokunbo Car in Lagos</p>
+              <div className="flex flex-row items-center justify-center gap-2">
+                <span>21,0000</span>
+                <span className="text-sm text-white/80 font-light ml-2">views</span>
+                <span className="text-sm text-white/80 font-light ml-2">-</span>
+                <span className="text-sm text-white/80 font-light ml-2">2 months ago</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <Image src="/image/carspeedometer.jpeg" width={300} height={300} alt="Lagos used cars" className="w-full h-30 object-cover" />
+            <div className="w-full h-auto flex flex-col justify-center items-center gap-2 bg-blue-700">
+              <p className="text-center text-sm text-white  px-4 font-bold">How to spot a good Tokunbo Car in Lagos</p>
+              <div className="flex flex-row items-center justify-center gap-2">
+                <span>21,0000</span>
+                <span className="text-sm text-white/80 font-light ml-2">views</span>
+                <span className="text-sm text-white/80 font-light ml-2">-</span>
+                <span className="text-sm text-white/80 font-light ml-2">2 months ago</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <Image src="/image/carspeedometer.jpeg" width={300} height={300} alt="Lagos used cars" className="w-full h-30 object-cover" />
+            <div className="w-full h-auto flex flex-col justify-center items-center gap-2 bg-blue-700">
+              <p className="text-center text-sm text-white  px-4">How to spot a good Tokunbo Car in Lagos</p>
+              <div className="flex flex-row items-center justify-center gap-2">
+                <span>21,0000</span>
+                <span className="text-sm text-white/80 font-light ml-2">views</span>
+                <span className="text-sm text-white/80 font-light ml-2">-</span>
+                <span className="text-sm text-white/80 font-light ml-2">2 months ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* footer */}
+      <div className="w-full h-auto bg-gray-100 py-8 blur-sm mt-8">
+
+        {/* footer detail */}
+        <div className="w-full h-auto bg-gray-100 py-8 px-16 flex flex-row justify-between items-start gap-8">
+          <div className="w-1/4 h-auto flex flex-col justify-start items-start gap-4">
+            {/* logos  */}
+            <p>LAGOS</p>
+            <div className='flex items-center gap-2 cursor-pointer'>
+              <span><IoCarSportOutline /></span>
+              <span className='text-sm'>Used Cars</span>
+            </div>
+
+            <div className="w-full h-auto py-4 px-2">
+              <p>
+                Lagos's most trusted used car marketplace for buyers and sellers
+                used cars. Verified dealers, transparent pricing and a seamless
+                experience. from search to ownership.
+              </p>
+            </div>
+
+            <div className="w-full h-auto py-4 px-2">
+              {/* phone number */}
+              <div className='flex items-center gap-2 cursor-pointer'>
+                <span className="text-xl text-blue-900"><FiPhoneIncoming /></span>
+                <p>+234 7059743120</p>
+              </div>
+
+              {/* email */}
+              <div className='flex items-center gap-2 cursor-pointer'>
+                <span className="text-xl text-blue-900"><AiTwotoneMail /></span>
+                <p className="text-blue-900">hello@lagosusedcars.ng</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Buy a car */}
+          <div className="w-1/4 h-auto ">
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-4">
+              <p className="text-sm  text-black/50">Buy a Car</p>
+            </div>
+
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-2">
+              <ul className="flex flex-col justify-start items-start gap-2 space-y-2">
+                <li>Search Listing</li>
+                <li>Tokunbo Cars</li>
+                <li>Nigerian Used Cars</li>
+                <li>Brand New</li>
+                <li>Drive Now Pay later</li>
+                <li>Nierian Used Cars</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Sell a Car */}
+          <div>
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-4" >
+              <p className="text-sm  text-black/50">Sell a Car</p>
+            </div>
+
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-2" >
+              <ul className="flex flex-col justify-start items-start gap-2 space-y-2">
+                <li>List your car</li>
+                <li>Dealer Registration</li>
+                <li>Pricing Plans</li>
+                <li>Car Valuation</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Company */}
+          <div className="w-1/4 h-auto ">
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-4" >
+              <p className="text-sm  text-black/50">Company</p>
+            </div>
+
+            <div className="w-full h-auto flex flex-col justify-start items-start gap-2" >
+              <ul className="flex flex-col justify-start items-start gap-2 space-y-2">
+                <li>About Us</li>
+                <li>Services</li>
+                <li>FAQ</li>
+                <li>Contact Us</li>
+              </ul>
             </div>
           </div>
         </div>
 
-      </div>
+        {/* Copy Right */}
 
+        <div className="w-full h-auto bg-gray-100 py-4 px-16 flex flex-row justify-between items-center gap-8">
+          <div>
+            <p>2023 Lagos Used Cars. All rights reserved.</p>
+          </div>
+
+          {/* Social Media Icons */}
+          <div className="flex items-center gap-4 px-4 py-2">
+            <span className="text-xl text-blue-900"><FaFacebook /></span>
+            <span className="text-xl text-blue-900"><FaTwitter /></span>
+            <span className="text-xl text-blue-900"><FaInstagram /></span>
+          </div>
+        </div>
+      </div>
 
 
       {/* sign up section */}
@@ -475,20 +928,17 @@ export default function page() {
           </div>
 
           {/* form section */}
-          <div>
+          <div className="w-200 h-auto">
             <form action="" onSubmit={handleSubmit(onSubmit)}>
 
-              <div className=" w-100 ml-20">
+              <div className=" w-100 ml-20 py-4">
                 <input
                   type="email" placeholder="Enter email"
-                  className={`w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2 ${errors.email ? 'border-2 border-red-500' : ' border border-green-700'
-                    }`}
+                  className="w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2"
+
                   {...register("email", {
                     required: "email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Invalid email address'
-                    }
+
                   })}
                 />
                 {errors.email && (
@@ -499,30 +949,29 @@ export default function page() {
               </div>
 
 
-              <div className=" w-100 ml-20 py-2">
+              <div className=" w-100 ml-20 py-4">
                 <div>
-                  <div className="flex">
-                    <div>
+                  <div className="flex items-center gap-2 relative">
+                    <div className="relative">
                       <input
                         type={showPassword ? "text" : "password"} placeholder="password"
-                        value={password}
-                        className={`w-150  border border-black/40 py-3 pl-3 pr-10 mx-2 outline-none relative  ${errors.password ? 'border-2 border-red-500' : 'border-2 border-green-700'
-                          }`}
+                        className="w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2"
                         {...register("password", {
                           required: "password is required",
-                          onChange: (e) => {
-                            setPassword(e.target.value);
-                          },
                           minLength: {
                             value: 10,
-                            message: "Password must be at least 10 characters",
+                            message:
+                              "Password must be at least 6 characters",
                           },
+
                         })}
                       />
                     </div>
 
-                    <div className="">
-                      <span className=" text-black/40 py-1  pl-3 relative -top-2 -left-12.5 " aria-label={showPassword ? "Hide password" : "Show password"} onClick={togglePasswordVisibility}> {showPassword ? <FiEyeOff size={25} /> : <FiEye size={25} />}</span>
+                    <div className="absolute left-140 cursor-pointer">
+                      <span onClick={() => setShowPassword((prev) => !prev)} >
+                        {showPassword ? <FaEyeSlash size={30} /> : <FaEye size={30} />}
+                      </span>
                     </div>
 
                   </div>
@@ -535,23 +984,17 @@ export default function page() {
                 </div>
 
 
-                <div className="">
+                <div className="py-4">
                   <span className="text-black/40 ">Never disclose your logos used car password to anyone</span>
                 </div>
               </div>
 
-              <div className=" w-100 ml-20 py-1">
+              <div className=" w-100 ml-20 py-4">
                 <input
                   type="text" placeholder="First name"
-                  className={`w-150 border py-2 pl-3 pr-10 border-black/40  mx-2 outline-none ${errors.email ? 'border-2 border-red-500' : ' border border-green-700'
-                    }`}
+                  className="w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2"
                   {...register("fName", {
                     required: "first name is required",
-                    minLength: {
-                      value: 2,
-                      message: 'Must be at least 2 characters'
-                    }
-
                   })}
                 />
                 {errors.fName && (
@@ -561,17 +1004,13 @@ export default function page() {
                 )}
               </div>
 
-              <div className=" w-100 ml-20 py-1">
+              <div className=" w-100 ml-20 py-4">
                 <input
                   type="text" placeholder="Last name"
-                  className={`w-150 border py-2 pl-3 pr-10 border-black/40 p-2 mx-2 outline-none ${errors.email ? 'border-2 border-red-500' : ' border border-green-700'
-                    }`}
+                  className="w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2"
                   {...register("lName", {
                     required: "Last name is required",
-                    minLength: {
-                      value: 2,
-                      message: 'Must be at least 2 characters'
-                    }
+
                   })}
                 />
                 {errors.lName && (
@@ -582,18 +1021,12 @@ export default function page() {
               </div>
 
 
-              <div className=" w-100 ml-20 py-1">
+              <div className=" w-100 ml-20 py-4">
                 <input
                   type="text" placeholder="Phone(digits only)"
-                  className={`w-150 border py-2 pl-3 pr-10 border-black/40 mx-2 outline-none ${errors.email ? 'border-2 border-red-500' : ' border border-green-700'
-                    }`}
+                  className="w-150 border py-3 pl-3 pr-10 border-black/40 outline-none mx-2"
                   {...register("phone", {
-
                     required: "phone number is required",
-                    minLength: {
-                      value: 10,
-                      message: "your phone number must be at least 10 digits",
-                    },
                     pattern: {
                       value: /^[0-9]{10,15}$/,
                       message: 'Phone number must be between 10 and 15 digits'
@@ -609,11 +1042,11 @@ export default function page() {
               </div>
 
 
-              <div className=" w-100 ml-22 py-1">
+              <div className=" w-100 ml-22 py-4">
                 <div className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    className={`w-4 h-4 border border-black/40 p-2 mx-2 outline-none ${errors.email ? 'border-2 border-red-500' : ' border border-green-700'
+                    className={`w-4 h-4 border border-black/40 p-2 mx-2 outline-none ${errors.agree ? 'border-2 border-red-500' : ' border border-green-700'
                       }`}
                     {...register("agree", {
                       required: "check on the rules",
@@ -631,14 +1064,13 @@ export default function page() {
               </div>
 
 
-              <div className=" w-100 m-auto py-3">
+              <div className=" w-100 m-auto py-4">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full p-3 text-white border-none rounded-sm ${isSubmitting ? 'cursor-not-allowed' : 'cursor-pointer'} ${isSubmitting ? 'bg-[#ccc] cursor-not-allowed' : 'bg-blue-900 cursor-pointer'
-                    }`}
+                  disabled={loading}
+                   className={`p-3 rounded text-white w- ${ loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-900 hover:bg-blue-700" }`}
                 >
-                  {isSubmitting ? 'Registering...' : 'Register'}
+                  {loading ? "Registering..." : "Register"}
                 </button>
 
               </div>
@@ -647,7 +1079,6 @@ export default function page() {
 
         </div>
       </div>
-
     </>
   )
 }
